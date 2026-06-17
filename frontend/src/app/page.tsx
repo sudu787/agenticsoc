@@ -1,8 +1,9 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useState } from "react";
 import { getDashboard, getHealth, getIngestionStatus } from "@/lib/api";
 import type { DashboardData, Alert, AgentActivity, SystemHealth } from "@/lib/types";
+import { AlertCircle, Target, Ticket, Activity, RefreshCw, Zap, ShieldCheck, Database, PlayCircle } from "lucide-react";
 
 export default function DashboardPage() {
   const [data, setData] = useState<DashboardData | null>(null);
@@ -47,7 +48,7 @@ export default function DashboardPage() {
       <div className="sf-page-header">
         <div>
           <h1 className="sf-page-title">Security Dashboard</h1>
-          <p className="sf-page-subtitle">Real-time security operations overview â€¢ SecureFlow AI</p>
+          <p className="sf-page-subtitle">Real-time security operations overview • SecureFlow AI</p>
         </div>
         <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
           {ingestion?.running && (
@@ -62,7 +63,7 @@ export default function DashboardPage() {
             </span>
           )}
           <button className="sf-btn sf-btn-secondary sf-btn-sm" onClick={loadAll}>
-            â†» Refresh
+            <RefreshCw size={14} /> Refresh
           </button>
         </div>
       </div>
@@ -70,16 +71,16 @@ export default function DashboardPage() {
       {/* Stats Grid */}
       <div className="sf-stats-grid">
         <div className="sf-stat-card danger">
-          <div className="sf-stat-icon">ðŸš¨</div>
+          <div className="sf-stat-icon"><AlertCircle size={24} color="#ef4444" /></div>
           <div className="sf-stat-label">Open Alerts</div>
           <div className="sf-stat-value">{stats?.open_alerts ?? 0}</div>
           <div className="sf-stat-change up">
-            {stats?.critical_alerts ?? 0} critical â€¢ {stats?.high_alerts ?? 0} high
+            {stats?.critical_alerts ?? 0} critical • {stats?.high_alerts ?? 0} high
           </div>
         </div>
 
         <div className="sf-stat-card warning">
-          <div className="sf-stat-icon">ðŸ”</div>
+          <div className="sf-stat-icon"><Target size={24} color="#f59e0b" /></div>
           <div className="sf-stat-label">Open Incidents</div>
           <div className="sf-stat-value">{stats?.open_incidents ?? 0}</div>
           <div className="sf-stat-change" style={{ color: "var(--sf-text-muted)" }}>
@@ -88,7 +89,7 @@ export default function DashboardPage() {
         </div>
 
         <div className="sf-stat-card info">
-          <div className="sf-stat-icon">ðŸŽ«</div>
+          <div className="sf-stat-icon"><Ticket size={24} color="#3b82f6" /></div>
           <div className="sf-stat-label">Open Tickets</div>
           <div className="sf-stat-value">{stats?.open_tickets ?? 0}</div>
           <div className="sf-stat-change" style={{ color: "var(--sf-success)" }}>
@@ -97,7 +98,7 @@ export default function DashboardPage() {
         </div>
 
         <div className="sf-stat-card accent">
-          <div className="sf-stat-icon">ðŸ“¡</div>
+          <div className="sf-stat-icon"><Activity size={24} color="#8b5cf6" /></div>
           <div className="sf-stat-label">Events Ingested</div>
           <div className="sf-stat-value">{ingestion?.events_ingested ?? stats?.events_today ?? 0}</div>
           <div className="sf-stat-change" style={{ color: "var(--sf-text-muted)" }}>
@@ -106,7 +107,7 @@ export default function DashboardPage() {
         </div>
 
         <div className="sf-stat-card success">
-          <div className="sf-stat-icon">ðŸ¤–</div>
+          <div className="sf-stat-icon"><Zap size={24} color="#10b981" /></div>
           <div className="sf-stat-label">AI Actions Today</div>
           <div className="sf-stat-value">{stats?.agent_actions_today ?? 0}</div>
           <div className="sf-stat-change" style={{ color: "var(--sf-text-muted)" }}>
@@ -124,11 +125,11 @@ export default function DashboardPage() {
             <div className="sf-card" style={{ borderColor: ingestion.running ? "rgba(16,185,129,0.3)" : "var(--sf-border)" }}>
               <div className="sf-card-header">
                 <div>
-                  <div className="sf-card-title">ðŸ“Š Automated Ingestion Pipeline</div>
-                  <div className="sf-card-subtitle">Real-time log collection â†’ parsing â†’ detection â†’ alerting</div>
+                  <div className="sf-card-title"><Database size={16} style={{ display: 'inline', marginRight: 6, verticalAlign: 'text-bottom' }} /> Automated Ingestion Pipeline</div>
+                  <div className="sf-card-subtitle">Real-time log collection → parsing → detection → alerting</div>
                 </div>
                 <span className={`sf-badge ${ingestion.running ? "open" : "resolved"}`}>
-                  {ingestion.running ? "â— Running" : "â—‹ Stopped"}
+                  {ingestion.running ? "● Running" : "○ Stopped"}
                 </span>
               </div>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: "16px", padding: "4px 0" }}>
@@ -159,7 +160,7 @@ export default function DashboardPage() {
               </div>
               {ingestion.last_ingestion && (
                 <div style={{ fontSize: "11px", color: "var(--sf-text-muted)", marginTop: "8px", textAlign: "right" }}>
-                  Last ingestion: {new Date(ingestion.last_ingestion).toLocaleTimeString()} â€¢ {ingestion.errors} errors
+                  Last ingestion: {new Date(ingestion.last_ingestion).toLocaleTimeString()} • {ingestion.errors} errors
                 </div>
               )}
             </div>
@@ -169,13 +170,13 @@ export default function DashboardPage() {
           <div className="sf-card">
             <div className="sf-card-header">
               <div>
-                <div className="sf-card-title">ðŸš¨ Recent Security Alerts</div>
-                <div className="sf-card-subtitle">Latest detected threats â€” auto-generated by ingestion pipeline</div>
+                <div className="sf-card-title"><AlertCircle size={16} style={{ display: 'inline', marginRight: 6, verticalAlign: 'text-bottom' }} /> Recent Security Alerts</div>
+                <div className="sf-card-subtitle">Latest detected threats — auto-generated by ingestion pipeline</div>
               </div>
             </div>
             {(!data?.recent_alerts || data.recent_alerts.length === 0) ? (
               <div style={{ textAlign: "center", padding: "40px", color: "var(--sf-text-muted)" }}>
-                <div style={{ fontSize: "40px", marginBottom: "12px" }}>ðŸ›¡ï¸</div>
+                <div style={{ display: "flex", justifyContent: "center", marginBottom: "12px" }}><ShieldCheck size={40} color="#10b981" opacity={0.5} /></div>
                 <div style={{ fontSize: "14px", fontWeight: 600 }}>No alerts detected</div>
                 <div style={{ fontSize: "12px", marginTop: "4px" }}>The ingestion pipeline will generate alerts automatically</div>
               </div>
