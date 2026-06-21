@@ -223,3 +223,47 @@ export const searchRag = (query: string, sourceFilter?: string) => {
 export const getGraphStats = () => fetchAPI<any>('/api/knowledge-graph/stats');
 export const getGraphVisualization = () => fetchAPI<any>('/api/knowledge-graph/visualization');
 export const getEntityContext = (type: string, id: string) => fetchAPI<any>(`/api/knowledge-graph/entity/${type}/${id}`);
+
+// ─── Risk Scoring ────────────────────────────────────────────────────────────
+export const getOrgRiskScore = () => fetchAPI<any>('/api/risk/org');
+export const getRiskTrend = () => fetchAPI<any>('/api/risk/trend');
+export const getAssetRisks = () => fetchAPI<any>('/api/risk/assets');
+export const scoreAlert = (alertId: number) =>
+  fetchAPI<any>(`/api/risk/alert/${alertId}`, { method: 'POST' });
+
+// ─── Compliance ──────────────────────────────────────────────────────────────
+export const getComplianceScore = () => fetchAPI<any>('/api/compliance/score');
+export const getComplianceViolations = () => fetchAPI<any>('/api/compliance/violations');
+export const getComplianceFrameworks = () => fetchAPI<any>('/api/compliance/frameworks');
+export const analyzeAlertCompliance = (alertId: number) =>
+  fetchAPI<any>(`/api/compliance/analyze/${alertId}`, { method: 'POST' });
+
+// ─── Autonomous Response ──────────────────────────────────────────────────────
+export const getApprovalQueue = () => fetchAPI<any>('/api/autonomous/queue');
+export const getActionHistory = () => fetchAPI<any>('/api/autonomous/history');
+export const getActionCatalog = () => fetchAPI<any>('/api/autonomous/catalog');
+export const getAutonomousModes = () => fetchAPI<any>('/api/autonomous/modes');
+export const approveAction = (actionIndex: number, approvedBy: string) =>
+  fetchAPI<any>('/api/autonomous/approve', {
+    method: 'POST',
+    body: JSON.stringify({ action_index: actionIndex, approved_by: approvedBy }),
+  });
+export const rejectAction = (actionIndex: number, rejectedBy: string, reason: string) =>
+  fetchAPI<any>('/api/autonomous/reject', {
+    method: 'POST',
+    body: JSON.stringify({ action_index: actionIndex, rejected_by: rejectedBy, reason }),
+  });
+export const triggerAutonomousResponse = (incident: any, mode: string = 'risk_aware') =>
+  fetchAPI<any>('/api/autonomous/trigger', {
+    method: 'POST',
+    body: JSON.stringify({ incident, mode }),
+  });
+
+// ─── Threat Prediction ────────────────────────────────────────────────────────
+export const getThreatPredictions = (hours: number = 24) =>
+  fetchAPI<any>(`/api/prediction/threats?hours=${hours}`);
+export const getPredictionHistory = () => fetchAPI<any>('/api/prediction/threats/history');
+export const correlateAlertIOCs = (alertId: number) =>
+  fetchAPI<any>(`/api/prediction/ioc/correlate/${alertId}`, { method: 'POST' });
+export const getThreatCampaigns = () => fetchAPI<any>('/api/prediction/ioc/campaigns');
+

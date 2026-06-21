@@ -3,20 +3,26 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+import { LayoutDashboard, BellRing, Target, Ticket, Brain, Network, MessageSquare, FileText, Bot, Gamepad2, Shield, ShieldCheck, Zap, TrendingUp } from "lucide-react";
+
 const navItems = [
   { section: "Operations" },
-  { href: "/", label: "Dashboard", icon: "📊" },
-  { href: "/alerts", label: "Alerts", icon: "🚨" },
-  { href: "/incidents", label: "Incidents", icon: "🔍" },
-  { href: "/tickets", label: "Tickets", icon: "🎫" },
+  { href: "/", label: "Dashboard", Icon: LayoutDashboard },
+  { href: "/alerts", label: "Alerts", Icon: BellRing },
+  { href: "/incidents", label: "Incidents", Icon: Target },
+  { href: "/tickets", label: "Tickets", Icon: Ticket },
   { section: "Intelligence" },
-  { href: "/knowledge", label: "Knowledge Base", icon: "🧠" },
-  { href: "/graph", label: "Graph Explorer", icon: "🕸️" },
-  { href: "/chat", label: "AI Assistant", icon: "🤖" },
-  { href: "/logs", label: "Log Viewer", icon: "📋" },
+  { href: "/knowledge", label: "Knowledge Base", Icon: Brain },
+  { href: "/graph", label: "Graph Explorer", Icon: Network },
+  { href: "/chat", label: "AI Assistant", Icon: MessageSquare },
+  { href: "/logs", label: "Log Viewer", Icon: FileText },
+  { section: "Security" },
+  { href: "/risk", label: "Risk Center", Icon: TrendingUp },
+  { href: "/compliance", label: "Compliance", Icon: ShieldCheck },
+  { href: "/autonomous", label: "Auto Response", Icon: Zap },
   { section: "System" },
-  { href: "/agents", label: "Agent Status", icon: "🧠" },
-  { href: "/demo", label: "Demo Center", icon: "🎮" },
+  { href: "/agents", label: "Agent Status", Icon: Bot },
+  { href: "/demo", label: "Demo Center", Icon: Gamepad2 },
 ];
 
 export default function Sidebar() {
@@ -45,6 +51,7 @@ export default function Sidebar() {
           }
           if ("href" in item) {
             const isActive = pathname === item.href;
+            const IconComp = (item as any).Icon;
             return (
               <Link
                 key={item.href}
@@ -52,7 +59,9 @@ export default function Sidebar() {
                 className={`sf-sidebar-link ${isActive ? "active" : ""}`}
                 style={{ position: "relative" }}
               >
-                <span className="sf-sidebar-icon">{item.icon}</span>
+                <span className="sf-sidebar-icon">
+                  {IconComp && <IconComp size={16} />}
+                </span>
                 <span>{item.label}</span>
               </Link>
             );

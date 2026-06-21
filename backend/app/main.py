@@ -15,6 +15,10 @@ from app.api import notifications as notifications_api
 from app.api import knowledge_graph as knowledge_graph_api
 from app.api import security_testing as security_testing_api
 from app.api import rag as rag_api
+from app.api import autonomous as autonomous_api
+from app.api import risk as risk_api
+from app.api import compliance as compliance_api
+from app.api import prediction as prediction_api
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(name)s] %(levelname)s: %(message)s")
 logger = logging.getLogger("secureflow")
@@ -91,6 +95,10 @@ app.include_router(notifications_api.router, prefix="/api/notifications", tags=[
 app.include_router(knowledge_graph_api.router, prefix="/api/knowledge-graph", tags=["Knowledge Graph"])
 app.include_router(security_testing_api.router, prefix="/api/security", tags=["Security Testing"])
 app.include_router(rag_api.router, prefix="/api/rag", tags=["RAG Engine"])
+app.include_router(autonomous_api.router, prefix="/api/autonomous", tags=["Autonomous Response"])
+app.include_router(risk_api.router, prefix="/api/risk", tags=["Risk Scoring"])
+app.include_router(compliance_api.router, prefix="/api/compliance", tags=["Compliance"])
+app.include_router(prediction_api.router, prefix="/api/prediction", tags=["Threat Prediction"])
 
 
 @app.get("/api/health")
